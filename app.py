@@ -1,6 +1,6 @@
 from api import api, app
 from api.resources.author import AuthorResource, AuthorListResource
-from api.resources.quote import QuoteResource, QuoteListResource, QuotesByAuthorsResource
+from api.resources.quote import QuoteResource, QuoteListResource, QuotesByAuthorsResource, QuotesChangeRate
 
 api.add_resource(AuthorListResource, "/author")  # Все авторы с их цитатами
 api.add_resource(AuthorResource, "/author/<int:id>",
@@ -10,6 +10,7 @@ api.add_resource(QuoteListResource, "/quotes")  # Все цитаты
 api.add_resource(QuoteResource, "/quotes", "/author/<int:author_id>/quotes")  # Цитаты с методом post и по id автора
 api.add_resource(QuotesByAuthorsResource,
                  "/author/<int:author_id>/quotes/<int:quote_id>")  # работа с цитататами по id автора и id цитаты? Метод Put не работает корректно, пока не смог разобраться по какой причине
+api.add_resource(QuotesChangeRate, "/quotes/<int:quote_id>/<type>")
 
 if __name__ == '__main__':
     app.run(debug=True)

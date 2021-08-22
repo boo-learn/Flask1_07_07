@@ -95,3 +95,22 @@ class QuotesByAuthorsResource(Resource):
             quote = [quote.to_dict() for quote in quote]
             return quote, 200
         return {"message": f"quote with author_id={author_id} and quote_id={quote_id} not found"}, 404
+
+class QuotesChangeRate(Resource):
+    def put(self, quote_id, type):
+        # type inc/dec/test
+        print("quote_id = ", quote_id)
+        print("type = ", type)
+        quote = QuoteModel.query.get(quote_id)
+        if quote:
+            if type not in ["inc", "dec"]:
+                return "***", 404
+            if quote.rate is None:
+                quote.rate = 0
+            if type == "inc":
+                quote.rate += 1
+            elif type == "dec":
+                quote.rate -= 1
+            db.session.commit()
+            return quote.to_dict(), 200
+        return "----", 404
